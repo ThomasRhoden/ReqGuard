@@ -1,41 +1,46 @@
-# 🛡️ ReqGuard — Plataforma de Gestão de Requisitos e Conformidade
+# ReqGuard — Plataforma de Gestão de Requisitos e Conformidade
 
-> **Versão 2.0** — Documento revisado para corrigir colisão de siglas entre agentes, fluxo de comunicação divergente do diagrama oficial e links internos quebrados.
+| Campo | Valor |
+|---|---|
+| **Versão do documento** | 2.2 |
+| **Pacote documental** | v3.1 |
+| **Documentos relacionados** | `especificacao_sistema.md`, `arquitetura_agentes.md`, `schema_projeto.md`, `versionamento.md` |
 
-Projeto conceitual desenvolvido a partir do conteúdo absorvido na **UC1 do curso Técnico em Desenvolvimento de Sistemas (SENAC)**, usado como projeto de portfólio para demonstrar Engenharia de Requisitos, Modelagem de Casos de Uso/User Stories (BDD), Rastreabilidade e *Privacy by Design* aplicados a um sistema real, orquestrado por agentes de IA.
-
-O **ReqGuard** ajuda equipes multidisciplinares a gerenciar o ciclo de vida de requisitos de software, do levantamento com stakeholders até o backlog priorizado, garantindo conformidade com a **LGPD (Lei nº 13.709/2018)** em cada etapa.
+O ReqGuard é uma plataforma para gestão do ciclo de vida de requisitos de software, do levantamento com stakeholders até o backlog priorizado, orquestrada por agentes de IA e com conformidade à LGPD (Lei nº 13.709/2018) integrada em cada etapa do fluxo.
 
 ---
 
-## 📚 Documentação do Projeto
+## 1. Documentação do Projeto
 
 | Documento | Conteúdo |
 |---|---|
-| [`especificacao_sistema.md`](./especificacao_sistema.md) | Escopo, módulos do sistema, regras de negócio e requisitos não funcionais (ISO/IEC 25010) |
-| [`arquitetura_agentes.md`](./arquitetura_agentes.md) | Especificação completa dos 6 agentes de IA, diagrama de fluxo, máquina de estados e protocolo de segurança |
-| [`schema_projeto.md`](./schema_projeto.md) | Stack definitiva, estrutura de pastas, schema de banco (PostgreSQL) e contratos de API — ponto de partida para codar |
+| [`especificacao_sistema.md`](./especificacao_sistema.md) | Escopo, módulos do sistema, perfis de acesso (RBAC), regras de negócio e requisitos não funcionais (ISO/IEC 25010) |
+| [`arquitetura_agentes.md`](./arquitetura_agentes.md) | Especificação dos 6 agentes de IA, diagrama de fluxo, máquina de estados, protocolo de segurança, resiliência e observabilidade |
+| [`schema_projeto.md`](./schema_projeto.md) | Stack, estrutura de pastas, schema de banco (PostgreSQL) e contratos de API |
+| [`versionamento.md`](./versionamento.md) | Política de versionamento de documentação, requisitos, schema, API, prompts de agentes e código-fonte |
 
 ---
 
-## 🎯 Visão e Objetivo
+## 2. Objetivo
 
-Consolidar, num único sistema, as práticas de Engenharia de Requisitos (IEEE 830 / ISO 29148), vinculando necessidades de negócio à arquitetura técnica e à conformidade regulatória — sem depender de planilhas soltas ou documentos desconectados.
+Consolidar, num único sistema, as práticas de Engenharia de Requisitos (IEEE 830 / ISO 29148), vinculando necessidades de negócio à arquitetura técnica e à conformidade regulatória.
 
 ---
 
-## 🧩 Módulos do Sistema (resumo)
+## 3. Módulos do Sistema
 
-- **A — Gestão de Stakeholders:** mapeamento Poder × Interesse, matriz RACI, plano de comunicação.
-- **B — Engenharia de Requisitos:** elicitação, especificação de RF/RNF, casos de uso, user stories (Gherkin), priorização MoSCoW.
-- **C — Rastreabilidade:** vínculo bidirecional Caso de Uso ↔ Requisito ↔ Regra de Negócio ↔ Caso de Teste ↔ User Story.
-- **D — Privacy by Design / LGPD:** classificação de dados, bases legais, trilha de auditoria imutável, módulo do titular.
+| Módulo | Escopo |
+|---|---|
+| **A — Gestão de Stakeholders** | Mapeamento Poder × Interesse, matriz RACI, plano de comunicação |
+| **B — Engenharia de Requisitos** | Elicitação, especificação de RF/RNF, casos de uso, user stories (Gherkin), priorização MoSCoW |
+| **C — Rastreabilidade** | Vínculo bidirecional Caso de Uso ↔ Requisito ↔ Regra de Negócio ↔ Caso de Teste ↔ User Story |
+| **D — Privacy by Design / LGPD** | Classificação de dados, bases legais, trilha de auditoria imutável, módulo do titular |
 
 Detalhes completos em [`especificacao_sistema.md`](./especificacao_sistema.md).
 
 ---
 
-## 🤖 Agentes de Inteligência Artificial
+## 4. Agentes de Inteligência Artificial
 
 | Sigla | Nome | Responsabilidade principal |
 |---|---|---|
@@ -46,34 +51,57 @@ Detalhes completos em [`especificacao_sistema.md`](./especificacao_sistema.md).
 | **APB** | Agente de Priorização de Backlog | Classifica requisitos aprovados na matriz MoSCoW |
 | **AUS** | Agente de User Stories | Gera user stories e critérios de aceitação em Gherkin, valida formato SMART |
 
-> ⚠️ Nas versões anteriores deste documento, o agente de especificação aparecia incorretamente com a mesma sigla do agente de elicitação (ambos como "AER"). Corrigido para **AES**.
-
 ---
 
-## 🔄 Fluxo de Comunicação entre Agentes
+## 5. Fluxo de Comunicação entre Agentes
 
 ```
 Stakeholder → AER → AES → (AR ⇄ AC, validação cruzada) → APB → AUS → Repositório / Jira
 ```
 
-O fluxo **não é um ciclo fechado**: ele nasce no levantamento com o stakeholder e termina na entrega ao repositório/Jira, pronto para desenvolvimento. O único ponto não-linear é entre **AR e AC**, que se validam mutuamente antes de liberar o requisito para priorização — se o AC reprovar por falta de base legal, o requisito retorna para revisão em vez de seguir adiante.
+O fluxo não é um ciclo fechado: nasce no levantamento com o stakeholder e termina na entrega ao repositório/Jira. O único ponto não-linear é entre AR e AC, que se validam mutuamente antes de liberar o requisito para priorização — se o AC reprovar por falta de base legal, o requisito retorna para revisão. Esse ciclo é limitado a 3 tentativas antes de escalar para revisão humana.
 
 Diagrama completo, system prompts e schemas JSON de cada agente em [`arquitetura_agentes.md`](./arquitetura_agentes.md).
 
 ---
 
-## 🔐 Segurança e Privacidade (resumo)
+## 6. Perfis de Acesso (RBAC)
 
-- Qualquer dado potencialmente real de usuário final passa por tokenização/anonimização **antes** de ser enviado a uma API de LLM.
-- Toda a cadeia de mensagens entre agentes é armazenada com hash SHA-256 encadeado (estilo blockchain), tornando a trilha de auditoria imutável.
-- RBAC e mascaramento de dados sensíveis na interface para usuários sem nível de autorização adequado.
-- Criptografia em repouso e em trânsito para dados classificados como sensíveis.
+| Perfil | Acesso principal |
+|---|---|
+| **ADMIN** | Acesso total — usuários, projetos e versões de prompts dos agentes |
+| **ANALISTA_REQUISITOS** | Módulos A, B e C |
+| **DPO** | Módulo D — conformidade LGPD e solicitações do titular |
+| **PRODUCT_OWNER** | Backlog priorizado (APB) e user stories (AUS) |
+| **STAKEHOLDER_VIEWER** | Leitura apenas |
 
-Protocolo técnico completo em [`arquitetura_agentes.md` §3](./arquitetura_agentes.md).
+Matriz completa de permissões por módulo em [`especificacao_sistema.md §6`](./especificacao_sistema.md).
 
 ---
 
-## 🛣️ Roadmap / Escopo de Melhorias Futuras
+## 7. Segurança e Privacidade
+
+- Dado potencialmente real de usuário final passa por tokenização/anonimização antes de qualquer chamada a uma API de LLM.
+- A cadeia de mensagens entre agentes é armazenada com hash SHA-256 encadeado, tornando a trilha de auditoria imutável.
+- O direito à eliminação de dados do titular (LGPD) é resolvido sem violar essa imutabilidade: apaga-se o mapeamento token ↔ valor real no vault, nunca o registro de auditoria.
+- RBAC e mascaramento de dados sensíveis na interface para perfis sem autorização adequada.
+- Criptografia em repouso e em trânsito para dados classificados como sensíveis.
+- Nenhuma entidade rastreável é excluída fisicamente — remoção é sempre uma exclusão lógica.
+
+Protocolo técnico completo em [`arquitetura_agentes.md §4`](./arquitetura_agentes.md).
+
+---
+
+## 8. Stack Tecnológica
+
+**Backend:** Python 3.12 + FastAPI + SQLAlchemy 2.0 + Pydantic v2
+**Banco de dados:** PostgreSQL · **Migrations:** Alembic · **Auth:** JWT + RBAC
+
+Justificativa, estrutura de pastas e schema de banco em [`schema_projeto.md`](./schema_projeto.md).
+
+---
+
+## 9. Roadmap
 
 - Sistema de notificações para mudanças em requisitos ou conformidade.
 - Módulo de análise de impacto (o que muda na LGPD/rastreabilidade quando um requisito muda).
@@ -81,24 +109,4 @@ Protocolo técnico completo em [`arquitetura_agentes.md` §3](./arquitetura_agen
 - Dashboard em tempo real (status de requisitos, conformidade, rastreabilidade).
 - Suporte a múltiplos idiomas.
 - Sugestões de melhoria de requisitos via aprendizado de máquina sobre histórico do próprio projeto.
-- Versionamento completo de requisitos para auditoria histórica.
-
----
-
-## 🧱 Stack Tecnológica
-
-**Backend:** Python 3.12 + FastAPI + SQLAlchemy 2.0 + Pydantic v2
-**Banco de dados:** PostgreSQL (suporte nativo a JSONB, necessário para a trilha de auditoria com hash encadeado)
-**Migrations:** Alembic · **Auth:** JWT + RBAC
-
-Justificativa da escolha, estrutura de pastas completa e schema de banco em [`schema_projeto.md`](./schema_projeto.md).
-
----
-
-## ✍️ Sobre este projeto
-
-- **Copiloto:** Thomas Rhoden Gonçalves
-- **Piloto:** GitHub Copilot
-- **Demais agentes de IA consultados no processo:** ChatGPT, Claude, Gemini, Mistral, LLaMA
-
-Projeto conceitual construído como exercício prático de Engenharia de Requisitos + IA aplicada, no contexto da formação Técnico em Desenvolvimento de Sistemas (SENAC).
+- Painel administrativo para gestão de usuários, perfis RBAC e projetos.
